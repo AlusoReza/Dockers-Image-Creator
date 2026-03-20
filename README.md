@@ -34,10 +34,39 @@ Actualmente, el ecosistema cuenta con los siguientes módulos de infraestructura
 
 ---
 
+Aquí tienes el bloque completo y bien formateado en Markdown, listo para que lo copies y lo pegues directamente en tu archivo README.md de GitHub. He incluido iconos y bloques de código para que se vea súper profesional.
+
+Markdown
 ## 🚀 Guía de Operación
-1.  **Detección:** Asegúrate de que el motor de Docker esté en estado "Running".
-2.  **Despliegue:** Ejecuta el archivo `.bat` correspondiente al servicio que desees iniciar.
-3.  **Configuración Automática:** Los scripts incluyen rutinas de espera y comandos de post-instalación para que el servicio esté listo sin intervención manual.
+
+Sigue estos pasos para desplegar tus instancias de base de datos de forma automatizada y sin errores de configuración.
+
+### 1. Preparación del Entorno
+* **Motor Docker:** Asegúrate de que Docker Desktop esté iniciado y en estado **"Running"**.
+* **Personalización (.env):** Antes de lanzar, puedes centralizar la configuración editando el archivo `.env` dentro de la carpeta de la instancia:
+    * `PUERTO_HOST`: Define el puerto que usarás en tu PC (ej. `3308`, `1522`).
+    * `NOMBRE_DB` / `ORACLE_PASS`: Configura el nombre de tu esquema o la clave maestra.
+
+### 2. Despliegue con un Clic
+* Navega a la carpeta de la instancia en `Instances/`.
+* Ejecuta el archivo **`.bat`** correspondiente (ej. `Launch_MySQL.bat` o `Launch_Oracle.bat`).
+* **Gestión de Conflictos:** El script detectará automáticamente si ya existe un contenedor con ese nombre o puerto, lo detendrá y lo recreará para asegurar una instalación limpia.
+
+### 3. Configuración Automática (Zero-Touch)
+* **Auto-Wait:** Los scripts integran una rutina de espera sincronizada (60s) para garantizar que el motor de la base de datos esté listo antes de recibir comandos.
+* **Post-Instalación:** Se ejecutan automáticamente scripts internos para:
+    * Crear la base de datos definida en las variables.
+    * Configurar privilegios de red y compatibilidad de contraseñas (Legacy Auth en MySQL / PDB Open en Oracle).
+* **Persistencia:** Todos los datos se almacenan en carpetas locales (`mysql_data` / `oracle_data`), por lo que no perderás información al borrar los contenedores.
+
+---
+
+### 📂 Estructura de Archivos Recomendada
+Para mantener la automatización, cada carpeta de instancia debe contener:
+* `docker-compose.yml` -> Plantilla de orquestación.
+* `.env` -> Centro de control de variables.
+* `Launch_*.bat` -> Script de despliegue inteligente.
+* `init-db/` -> (Opcional) Scripts SQL para carga inicial.
 
 ---
 
