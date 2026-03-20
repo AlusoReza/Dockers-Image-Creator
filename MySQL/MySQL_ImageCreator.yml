@@ -1,0 +1,60 @@
+# ==============================================================================
+# CONFIGURACIÓN DE MYSQL SERVER (DOCKER COMPOSE)
+# ==============================================================================
+#
+# INSTRUCCIONES DE USO:
+# 1. Abrir terminal en la carpeta donde esté este archivo.
+# 2. Levantar el servidor: 
+#    docker-compose -f MySQL_ImageCreator.yml up -d
+# 3. Ver el progreso de inicio (importante para depuración):
+#    docker logs -f mysql-workbench-server
+# 4. Detener el servidor:
+#    docker-compose -f MySQL_ImageCreator.yml down
+#
+# NOTA: 
+# - El puerto 3308 en el host se mapea al 3306 del contenedor, que es el puerto estándar de MySQL.
+# - La contraseña del usuario root es "root" y se crea una base de datos llamada "Nombre_Base_de_Datos" al iniciar el contenedor.
+# - El bloque "volumes" asegura que los datos persistan incluso si el contenedor se detiene o elimina.
+# - El bloque "init-mysql" es opcional y se ejecuta solo la primera vez que se levanta el contenedor, para ejecutar scripts 
+#   de configuración inicial.
+# - Es impresindible el aparrtado de MYSQL_DATABASE para crear la base de datos inicial, no tenerla puede causar errores de conexión 
+#   en herramientas como MySQL Workbench. Sobretodo en la primera conexión, ya que el cliente intenta conectarse a una base de datos 
+#   específica y si no existe, puede fallar.
+# - Esperar a que el mensaje "ready for connections" aparezca en los logs antes de intentar conectarse con MySQL Workbench o DBeaver.
+# - restart: always asegura que el contenedor se reinicie automáticamente si se detiene por algún error o al reiniciar la máquina, 
+#   lo cual es útil para un entorno de desarrollo. Pero si prefieres un control manual, puedes cambiarlo a "restart: no". Esto hace que
+#   el contenedor solo se inicie cuando tú lo decidas con "docker-compose up" y no se reinicie automáticamente. En este caso, recuerda 
+#   iniciar el contenedor manualmente cada vez que quieras usarlo. Puedes hacerlo con el comando "docker-compose -f MySQL_ImageCreator.yml up -d" 
+#   para iniciar y "docker-compose -f MySQL_ImageCreator.yml down" para detenerlo. O simplemente corriendo el .bat o el usando la app de 
+#   Docker Desktop.
+#
+# DATOS DE CONEXIÓN (MySQL Workbench / DBeaver):
+# ------------------------------------------------------------------------------
+# - Usuario: root
+# - Password: root
+# - Host: localhost
+# - Puerto: 3308 (Mapeado desde el 3306 interno)
+# - Esquema/DB: Nombre_Base_de_Datos
+# ==============================================================================
+
+services:
+  mi-servidor-mysql:
+    image: mysql:latest
+    container_name: mysql-workbench-server
+    restart: no
+    environment:
+      # Definición de credenciales y base de datos inicial
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Nombre_Base_de_Datos
+    ports:
+      # Formato: "Puerto_Host:Puerto_Contenedor"
+      - "3308:3306"
+    volumes:
+      # Persistencia de datos para no perder la DB al borrar el contenedor
+      - mysql_data:/var/lib/mysql
+      # Opcional: Carpeta para scripts de inicialización automática
+      - ./init-mysql:/docker-entrypoint-initdb.d
+
+volumes:
+  mysql_data:
+    driver: local

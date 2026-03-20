@@ -1,0 +1,49 @@
+# ==============================================================================
+# CONFIGURACIÓN DE ORACLE DATABASE XE 21c (DOCKER COMPOSE)
+# ==============================================================================
+#
+# INSTRUCCIONES DE USO:
+# 1. Abrir terminal en la carpeta donde esté este archivo.
+# 2. Levantar el servidor: 
+#    docker-compose -f PLSQL_Oracle_ImageCreator.yml up -d
+# 3. Ver el progreso de inicio (importante la primera vez):
+#    docker logs -f oracle-xe
+# 4. Detener el servidor:
+#    docker-compose -f Oracle_ImageCreator.yml down
+#
+# NOTAS: 
+# - En este caso guardamos los datos en un volumen local (./oracle_data) para persistencia, pero se puede omitir si no se necesita.
+# - El bloque "init-db" se ejecuta solo la primera vez que se levanta el contenedor, para crear el usuario y la tabla de ejemplo.
+# - El puerto 1521 es el estándar para Oracle, pero si ya está en uso en tu máquina, puedes cambiarlo (ej: 1522:1521).
+# - El usuario y contraseña por defecto son "system" y "Oracle123", se pueden cambiar en la sección de environment.
+# - Si se hacen cambios sustanciales, asegurarse de que el .bat de ejecución (Run_ImageCreator.bat) esté alineado con la configuración.
+# - El contenedor se llama "oracle-xe" para facilitar la gestión con comandos docker (logs, stop, etc.).
+# - El bloque "volumes" asegura que los datos persistan incluso si el contenedor se detiene o elimina.
+# - La primera vez que se levante el contenedor puede tardar un poco más, ya que Oracle necesita tiempo para inicializar la base de datos 
+#   y ejecutar los scripts de configuración. Generarar los datos de conexión y esperar a que el mensaje "DATABASE IS READY TO USE!" aparezca 
+#   en los logs antes de intentar conectarse.
+# 
+# DATOS DE CONEXIÓN (VS Code / SQL Developer):
+# ------------------------------------------------------------------------------
+# - Usuario: system
+# - Password: Oracle123
+# - Host: localhost
+# - Puerto: 1521 // Puede variar si el puerto 1521 ya está en uso, en ese caso cambiarlo en el archivo y en la conexión
+# - SID / Service Name: XE o XEPDB1
+# ==============================================================================
+
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    container_name: oracle-xe
+    restart: no
+    ports:
+      - "1521:1521"
+    environment:
+      - ORACLE_PASSWORD=Oracle123
+    volumes:
+      - ./oracle_data:/opt/oracle/oradata
+      - ./init-db:/container-entrypoint-initdb.d
+
+volumes:
+  oracledata:
