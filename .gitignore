@@ -1,19 +1,22 @@
-# --- DATOS DE BASES DE DATOS (IMPORTANTE) ---
-# Bloqueamos las carpetas pesadas que crea Docker
-mysql_data/
-oracle_data/
+# --- BASES DE DATOS (Persistencia Local) ---
+# El doble asterisco ** permite buscar en cualquier subcarpeta
+**/oracle_data/
+**/mysql_data/
+# Regla universal: ignora cualquier carpeta que termine en _data
+**/*_data/
 
-# --- ARCHIVOS TEMPORALES Y LOGS ---
-*.log
-*.tmp
-*.temp
+# --- ARCHIVOS DE CONFIGURACIÓN DE ORACLE ---
+# Ignora archivos de log y trazas que genera el motor
+**/*.log
+**/diag/
+**/admin/
 
-# --- CONFIGURACIONES DE EDITOR ---
+# --- ARCHIVOS DE SISTEMA Y EDITORES ---
 .vscode/
 .idea/
-*.suo
-*.user
-
-# --- ARCHIVOS DE SISTEMA ---
 Thumbs.db
 desktop.ini
+
+# --- EXCEPCIONES (Opcional) ---
+# Si usas scripts de inicialización SQL, asegúrate de que NO se ignoren
+!**/init-db/*.sql

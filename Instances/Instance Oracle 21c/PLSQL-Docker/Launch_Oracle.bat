@@ -13,7 +13,7 @@ docker login container-registry.oracle.com
 echo.
 echo [2/3] Levantando contenedor...
 :: Se especifica el archivo YAML personalizado para este proyecto
-docker-compose -f PLSQL_Oracle_ImageCreator.yml up -d
+docker-compose up -d
 
 echo.
 echo [3/3] Configurando base de datos...

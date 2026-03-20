@@ -8,7 +8,7 @@ title Lanzador de MySQL Docker
 
 echo [1/2] Levantando contenedor MySQL...
 :: Levanta los servicios definidos en el YAML en modo "detached" (segundo plano)
-docker-compose -f MySQL_ImageCreator.yml up -d
+docker-compose up -d
 
 echo.
 echo [2/2] Configurando base de datos...
