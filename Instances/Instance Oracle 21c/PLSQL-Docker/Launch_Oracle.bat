@@ -1,4 +1,7 @@
 @echo off
+:: Asegura que el script se ejecute en la carpeta donde está guardado
+cd /d "%~dp0"
+
 :: =======================================================================================
 :: LANZADOR Y CONFIGURADOR AUTOMÁTICO DE ORACLE XE
 :: Propósito: Levantar Docker y configurar privilegios/contraseñas de la base de datos.
@@ -12,12 +15,12 @@ docker login container-registry.oracle.com
 
 echo.
 echo [2/3] Levantando contenedor...
-:: Se especifica el archivo YAML personalizado para este proyecto
+:: Al estar el .bat y el .yml en la misma carpeta, usamos el comando estándar
 docker-compose up -d
 
 echo.
 echo [3/3] Configurando base de datos...
-echo Esperando 15 segundos a que el motor despierte...
+echo Esperando 60 segundos a que el motor despierte...
 :: Nota: Se usa PING porque 'timeout' a veces falla en terminales integradas como VS Code.
 :: El flujo se pausa para dar tiempo a que los procesos internos de Oracle inicien.
 ping -n 60 127.0.0.1 > nul
@@ -50,9 +53,9 @@ echo.
 echo ==============================================
 echo    SISTEMA LISTO! Datos de conexion:
 echo ==============================================
-echo    Host: localhost  ^|  Puerto: 1521
+echo    Host: localhost  ^| Puerto: 1521
 echo    Service Name: XEPDB1
-echo    Usuario: system  ^|  Clave: Oracle123
+echo    Usuario: system  ^| Clave: Oracle123
 echo ==============================================
 
 :: Pausa final para que el usuario pueda leer los datos antes de cerrar la ventana

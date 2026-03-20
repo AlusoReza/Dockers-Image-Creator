@@ -5,7 +5,8 @@
 # INSTRUCCIONES DE USO:
 # 1. Abrir terminal en la carpeta donde esté este archivo.
 # 2. Levantar el servidor: 
-#    docker-compose -f MySQL_ImageCreator.yml up -d
+#    docker-compose up -d
+#    (Si se prefiere especificar el archivo YAML, usar: docker-compose -f MySQL_ImageCreator.yml up -d)
 # 3. Ver el progreso de inicio (importante para depuración):
 #    docker logs -f mysql-workbench-server
 # 4. Detener el servidor:

@@ -5,7 +5,8 @@
 # INSTRUCCIONES DE USO:
 # 1. Abrir terminal en la carpeta donde esté este archivo.
 # 2. Levantar el servidor: 
-#    docker-compose -f PLSQL_Oracle_ImageCreator.yml up -d
+#    docker-compose up -d
+#    (Si se prefiere especificar el archivo YAML, usar: docker-compose -f Oracle_ImageCreator.yml up -d)
 # 3. Ver el progreso de inicio (importante la primera vez):
 #    docker logs -f oracle-xe
 # 4. Detener el servidor:
