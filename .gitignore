@@ -1,0 +1,19 @@
+# --- DATOS DE BASES DE DATOS (IMPORTANTE) ---
+# Bloqueamos las carpetas pesadas que crea Docker
+mysql_data/
+oracle_data/
+
+# --- ARCHIVOS TEMPORALES Y LOGS ---
+*.log
+*.tmp
+*.temp
+
+# --- CONFIGURACIONES DE EDITOR ---
+.vscode/
+.idea/
+*.suo
+*.user
+
+# --- ARCHIVOS DE SISTEMA ---
+Thumbs.db
+desktop.ini
