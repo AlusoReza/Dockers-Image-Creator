@@ -53,46 +53,32 @@
 # El nombre del proyecto incluye el puerto para evitar colisiones entre proyectos distintos
 name: mysql-latest-workbench-${PUERTO_HOST}
 
-version: '3.8'
 services:
   mysql-server:
-    # Usamos la imagen oficial de MySQL en su versión 8.4
     image: mysql:8.4
     
-    # El nombre del contenedor es dinámico. 
-    # DEBE COINCIDIR con el que busca el script .bat: mysql-workbench-server-${PUERTO_HOST}
     container_name: mysql-workbench-server-${PUERTO_HOST}
     
-    # 'no' para que no se reinicie solo si el script .bat decide detenerlo o hay errores
     restart: no
     
     environment:
-      # Definimos la contraseña del superusuario ROOT (necesaria para la inicialización)
+      # Definimos la contraseña del superusuario ROOT
       - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
       
       # Creamos la base de datos inicial usando la variable del .env
       - MYSQL_DATABASE=${NOMBRE_DB}
       
-      # [NUEVO] Pasamos el usuario y contraseña personalizados al motor de MySQL
-      # Esto permite que el contenedor sepa qué credenciales crear al nacer
+      # Usuario personalizado
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASS}
 
     ports:
-      # Mapeo de puertos: "Puerto_en_Windows:Puerto_interno_Docker"
-      # Usamos ${PUERTO_HOST} para que puedas cambiarlo sin tocar este archivo
       - "${PUERTO_HOST}:3306"
 
     volumes:
-      # PERSISTENCIA DE DATOS:
-      # 1. Volumen interno de Docker para rendimiento óptimo
-      - mysql_data:/var/lib/mysql
-      # 2. Carpeta local './mysql_data' para que puedas ver los archivos desde Windows
+      # Persistencia de datos local
       - ./mysql_data:/var/lib/mysql
-      # 3. Carpeta opcional para scripts .sql que quieras que se ejecuten al crear la DB
-      - ./init-mysql:/docker-entrypoint-initdb.d
-
-volumes:
-  # Definición del driver local para la persistencia de los datos
-  mysql_data:
-    driver: local
+      
+      # Carpeta de inicialización (Donde el .bat creará el script de seguridad)
+      - ./init-db:/docker-entrypoint-initdb.d/
