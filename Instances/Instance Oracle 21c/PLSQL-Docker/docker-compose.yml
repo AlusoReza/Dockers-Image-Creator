@@ -23,6 +23,8 @@
 # - La primera vez que se levante el contenedor puede tardar un poco más, ya que Oracle necesita tiempo para inicializar la base de datos 
 #   y ejecutar los scripts de configuración. Generarar los datos de conexión y esperar a que el mensaje "DATABASE IS READY TO USE!" aparezca 
 #   en los logs antes de intentar conectarse.
+# - El bloque de variables está en el .env para facilitar la configuración sin tener que editar el YAML directamente. 
+#   Asegúrate de definir NOMBRE_DB y PUERTO_HOST en el .env antes de levantar el contenedor.
 # 
 # DATOS DE CONEXIÓN (VS Code / SQL Developer):
 # ------------------------------------------------------------------------------
@@ -33,16 +35,21 @@
 # - SID / Service Name: XE o XEPDB1
 # ==============================================================================
 
+# El nombre del proyecto se adapta al puerto
+name: oracle-xe-21c-${PUERTO_HOST}
+
 services:
   oracle-db:
     image: container-registry.oracle.com/database/express:21.3.0-xe
-    container_name: oracle-xe
+    container_name: oracle-xe-${PUERTO_HOST}
     restart: no
     ports:
-      - "1521:1521"
+      # Mapea el puerto del .env al 1521 interno de Oracle
+      - "${PUERTO_HOST}:1521"
     environment:
-      - ORACLE_PASSWORD=Oracle123
+      - ORACLE_PASSWORD=${ORACLE_PASS}
     volumes:
+    
       - ./oracle_data:/opt/oracle/oradata
       - ./init-db:/container-entrypoint-initdb.d
 

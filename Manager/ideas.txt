@@ -1,0 +1,1 @@
+Un programa-interfaz que corra el Docker e imagen a generar con las opciones q deseemos

@@ -28,6 +28,14 @@
 #   iniciar el contenedor manualmente cada vez que quieras usarlo. Puedes hacerlo con el comando "docker-compose -f MySQL_ImageCreator.yml up -d" 
 #   para iniciar y "docker-compose -f MySQL_ImageCreator.yml down" para detenerlo. O simplemente corriendo el .bat o el usando la app de 
 #   Docker Desktop.
+# - El container_name es necesario para identificar el contenedor en los logs y comandos de Docker, especialmente si tienes múltiples contenedores corriendo.
+#   Ahora bien, con mysql cuando abre varios contenedores con el mismo nombre puede dar error, por lo que es importante asegurarse de que el nombre del contenedor 
+#   sea único o eliminar los contenedores anteriores antes de levantar uno nuevo. En este caso se usará "mysql-workbench-server-3308" para indicar que es un 
+#   servidor MySQL para Workbench y que está mapeado al puerto 3308 del host. Asegurate de cambiar el nombre del contenedor si ya tienes uno con ese nombre para 
+#   evitar conflictos. En este caso puedes cambiar el puerto mapeado (3308) y el nombre del contenedor (mysql-workbench-server-3308) para que sean únicos en tu 
+#   entorno. Por ejemplo, podrías usar "mysql-workbench-server-3309" y mapear al puerto 3309 si el 3308 ya está en uso.
+# - El bloque de variables está en el .env para facilitar la configuración sin tener que editar el YAML directamente. 
+# - Asegúrate de definir NOMBRE_DB y PUERTO_HOST en el .env antes de levantar el contenedor.
 #
 # DATOS DE CONEXIÓN (MySQL Workbench / DBeaver):
 # ------------------------------------------------------------------------------
@@ -38,21 +46,28 @@
 # - Esquema/DB: Nombre_Base_de_Datos
 # ==============================================================================
 
+# El nombre del proyecto ahora se adapta al puerto para evitar choques en Docker Desktop
+name: mysql-latest-workbench-${PUERTO_HOST}
+
 services:
   mi-servidor-mysql:
     image: mysql:latest
-    container_name: mysql-workbench-server
+    # El nombre del contenedor ahora es dinámico
+    container_name: mysql-workbench-server-${PUERTO_HOST}
     restart: no
     environment:
       # Definición de credenciales y base de datos inicial
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=Nombre_Base_de_Datos
+      # Usamos la variable del .env aquí:
+      - MYSQL_DATABASE=${NOMBRE_DB}
     ports:
       # Formato: "Puerto_Host:Puerto_Contenedor"
-      - "3308:3306"
+      # Se usa la variable para el puerto de la izquierda
+      - "${PUERTO_HOST}:3306"
     volumes:
       # Persistencia de datos para no perder la DB al borrar el contenedor
       - mysql_data:/var/lib/mysql
+      - ./mysql_data:/var/lib/mysql
       # Opcional: Carpeta para scripts de inicialización automática
       - ./init-mysql:/docker-entrypoint-initdb.d
 

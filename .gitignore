@@ -8,6 +8,7 @@
 # --- ARCHIVOS DE CONFIGURACIÓN DE ORACLE ---
 # Ignora archivos de log y trazas que genera el motor
 **/*.log
+**/*.tmp
 **/diag/
 **/admin/
 
