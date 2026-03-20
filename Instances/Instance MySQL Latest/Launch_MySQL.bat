@@ -24,7 +24,7 @@ echo Verificando base de datos y privilegios...
 :: El bloque entre paréntesis envía una ráfaga de comandos SQL al cliente interno de MySQL.
 (
   :: Crea la base de datos si no existe
-  echo CREATE DATABASE IF NOT EXISTS Nombre_Base_de_Datos;
+  echo CREATE DATABASE IF NOT EXISTS mysql-workbench-server;
   
   :: Asegura que el usuario root pueda conectarse desde fuera del contenedor (host '%%')
   :: Se usa doble '%%' porque en archivos .bat un solo '%%' se confunde con una variable.
