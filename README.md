@@ -78,16 +78,23 @@ To maintain automation, each instance folder should contain:
 
 ## ⚖️ License and Intellectual Property
 
-**Copyright (c) 2024 - [Your Name or GitHub Username]**
+**Copyright (c) 2026 - Alonso José Suárez Reza**
 
-This ecosystem is distributed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** license.
+This project is licensed under the **MIT License**, a permissive open-source license that allows reuse, modification, and distribution with minimal restrictions.
 
-### 🚫 Usage Restrictions:
-1. **Attribution (BY):** Proper credit must be given to the original author in any derivative work or copy.
-2. **Non-Commercial (NC):** Any commercial or profit-driven use of this material, in whole or in part, is strictly prohibited without explicit authorization.
-3. **No Warranty:** The software is provided "as is". The author disclaims all responsibility for data loss or technical failures resulting from its use.
+### ✅ Permissions:
+- Commercial use
+- Modification
+- Distribution
+- Private use
 
-> [View the full legal summary of the license here](https://creativecommons.org/licenses/by-nc/4.0/deed.en)
+### 📌 Conditions:
+- Attribution: You must include the original copyright notice and license in any copy or substantial portion of the software.
+
+### ⚠️ Disclaimer:
+This software is provided "as is", without warranty of any kind, express or implied. The author shall not be held liable for any damages arising from the use of this software.
+
+> [Read the full MIT License](https://opensource.org/licenses/MIT)
 
 ---
 
