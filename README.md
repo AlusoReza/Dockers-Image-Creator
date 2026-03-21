@@ -1,11 +1,37 @@
 <div align="center">
   <h1>🌐 Multi-Stack Docker Ecosystem</h1>
-  <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" alt="License: CC BY-NC 4.0">
+  <p><strong>Automated infrastructure for rapid and consistent development environments</strong></p>
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
+  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Docker-blue?logo=docker" alt="Platform">
+  <img src="https://img.shields.io/github/actions/workflow/status/AlusoReza/Dockers-Image-Creator/main.yml?branch=main&label=CI/CD&logo=github-actions&logoColor=white" alt="Build Status">
 </div>
 
 ---
 
 This repository constitutes the foundation of a **scalable ecosystem** designed for the rapid, automated, and consistent deployment of **comprehensive development environments** using Docker. The architecture has been designed to evolve modularly, enabling the future integration of various **technology stacks, microservices, and network infrastructure**, providing a portable, persistent, and license-unrestricted working environment.
+
+## 🚀 Quick Start
+Follow these steps to get your environment up and running in less than a minute:
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/AlusoReza/Dockers-Image-Creator.git](https://github.com/AlusoReza/Dockers-Image-Creator.git)
+    cd Dockers-Image-Creator
+    ```
+2.  **Deploy a Service:** Navigate to the desired instance folder (e.g., `Instances/Oracle`) and:
+    * **Windows:** Double-click the `.bat` file (e.g., `Launch_Oracle.bat`).
+    * **Manual/Linux:** Run `docker-compose up -d`.
+3.  **Verify Connection:** Use the credentials provided in the [Access Table](#-access-credentials-and-ports).
+
+---
+
+## 🛡️ Security Notice
+> [!IMPORTANT]
+> * **Default Credentials:** This ecosystem uses default passwords (e.g., `Oracle123`, `root`). Always modify the `.env` files before deploying in shared or non-private networks.
+> * **Port Mapping:** Services are mapped to `0.0.0.0` by default. For enhanced security, restrict access to `127.0.0.1` in the `docker-compose.yml` files.
+> * **Data Persistence:** Databases store information in local folders (`mysql_data`, `oracle_data`). Do not delete these folders unless you want to perform a complete data wipe.
+
+---
 
 ## 📌 Project Status
 > **Development Note:** This project is currently in its initial expansion phase. Although the current services are fully functional, the ecosystem is designed to grow. It is a living environment that may require compatibility adjustments depending on the versions of the official images used.
@@ -34,11 +60,15 @@ Currently, the ecosystem includes the following infrastructure modules:
 
 ---
 
-Here is the complete and properly formatted Markdown block, ready to be copied and pasted directly into your GitHub README.md file. Icons and code blocks have been included for a professional look.
+## ⚙️ GitHub Actions (CI/CD)
+The repository includes an automated workflow (`.github/workflows/main.yml`) that performs:
+* **YAML Validation:** Checks the syntax of all `docker-compose.yml` files.
+* **Consistency Check:** Ensures that environment variables and volume paths are correctly configured.
+* **Stability Testing:** Prevents broken configurations from being merged into the main branch.
+
+---
 
 ## 🚀 Operation Guide
-
-Follow these steps to deploy your database instances automatically and without configuration errors.
 
 ### 1. Environment Preparation
 * **Docker Engine:** Ensure Docker Desktop is running and in **"Running"** state.
@@ -48,14 +78,12 @@ Follow these steps to deploy your database instances automatically and without c
 
 ### 2. One-Click Deployment
 * Navigate to the instance folder under `Instances/`.
-* Run the corresponding **`.bat`** file (e.g., `Launch_MySQL.bat` or `Launch_Oracle.bat`).
+* Run the corresponding **`.bat`** file (e.g., `Launch_MySQL.bat`).
 * **Conflict Management:** The script will automatically detect if a container with the same name or port already exists, stop it, and recreate it to ensure a clean installation.
 
 ### 3. Automatic Configuration (Zero-Touch)
 * **Auto-Wait:** Scripts include a synchronized wait routine (60s) to ensure the database engine is ready before receiving commands.
-* **Post-Installation:** Internal scripts are automatically executed to:
-    * Create the database defined in the variables.
-    * Configure network privileges and password compatibility (Legacy Auth in MySQL / PDB Open in Oracle).
+* **Post-Installation:** Internal scripts are automatically executed to create the database and configure network privileges (Legacy Auth in MySQL / PDB Open in Oracle).
 * **Persistence:** All data is stored in local folders (`mysql_data` / `oracle_data`), so information is not lost when containers are removed.
 
 ---
@@ -70,7 +98,7 @@ To maintain automation, each instance folder should contain:
 ---
 
 ## ⚠️ Technical Considerations
-* **Compatibility:** In visual management tools (such as MySQL Workbench), version warnings may appear. It is recommended to ignore them and proceed ("Continue Anyway") to operate normally.
+* **Compatibility:** In visual management tools (such as MySQL Workbench), version warnings may appear. It is recommended to ignore them and proceed ("Continue Anyway").
 * **Privileges:** Some configuration scripts require administrator privileges to properly manage volumes on Windows.
 * **Optimization:** It is recommended to stop unused services to free system resources (RAM/CPU).
 
