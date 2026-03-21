@@ -1,17 +1,22 @@
 Creative Commons Attribution-NonCommercial 4.0 International
 
-Copyright (c) 2024 [TU NOMBRE AQUÍ]
+Copyright (c) 2024 [YOUR NAME HERE]
 
-Usted es libre de:
-- Compartir: Copiar y redistribuir el material en cualquier medio o formato.
-- Adaptar: Remezclar, transformar y construir sobre el material.
+You are free to:
+- Share: Copy and redistribute the material in any medium or format.
+- Adapt: Remix, transform, and build upon the material.
 
-Bajo los siguientes términos:
+Under the following terms:
 
-1. Atribución (BY): Debe otorgar el crédito correspondiente, proporcionar un enlace a la licencia e indicar si se realizaron cambios. 
+1. Attribution (BY): You must give appropriate credit, provide a link to the license, and indicate if changes were made.
 
-2. No Comercial (NC): Usted no puede utilizar el material con fines comerciales.
+2. Non-Commercial (NC): You may not use the material for commercial purposes.
 
-3. Sin garantías: El autor no ofrece garantías sobre el funcionamiento del software y no se hace responsable de daños derivados de su uso.
+3. No Warranty: The software is provided "as is", without warranty of any kind. The author shall not be held liable for any direct, indirect, incidental, or consequential damages arising from its use.
 
-Texto completo de la licencia: https://creativecommons.org/licenses/by-nc/4.0/legalcode.es
+Additional Notes:
+- This project is intended for educational and development purposes. Use in production environments is at your own risk.
+- This project may include or depend on third-party software, which is subject to its own licenses.
+- Users are responsible for ensuring secure configurations and proper handling of credentials.
+
+Full license text: https://creativecommons.org/licenses/by-nc/4.0/legalcode.en
