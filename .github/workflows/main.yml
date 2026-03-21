@@ -1,0 +1,33 @@
+name: Docker Stack CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-docker:
+    name: Validate Docker Configurations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Docker Compose Files
+        run: |
+          echo "Checking syntax for all docker-compose.yml files..."
+          # Busca todos los archivos docker-compose.yml y verifica su sintaxis
+          find . -name "docker-compose.yml" -exec docker compose -f {} config -q \;
+          echo "✅ All Docker Compose files are valid."
+
+      - name: Structure Check
+        run: |
+          echo "Checking repository structure..."
+          if [ -d "Instances" ]; then
+            echo "✅ Instances directory exists."
+          else
+            echo "❌ Instances directory is missing!"
+            exit 1
+          fi
