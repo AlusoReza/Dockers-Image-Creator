@@ -1,96 +1,130 @@
 <div align="center">
   <h1>🌐 Multi-Stack Docker Ecosystem</h1>
-  <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" alt="License: CC BY-NC 4.0">
+  <p><strong>Automated infrastructure for rapid and consistent development environments</strong></p>
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
+  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Docker-blue?logo=docker" alt="Platform">
+  <img src="https://img.shields.io/github/actions/workflow/status/AlusoReza/Dockers-Image-Creator/main.yml?branch=main&label=CI/CD&logo=github-actions&logoColor=white" alt="Build Status">
 </div>
 
 ---
 
-Este repositorio constituye la base de un **ecosistema escalable** diseñado para el despliegue rápido, automatizado y consistente de **entornos de desarrollo integrales** mediante Docker. La arquitectura ha sido proyectada para evolucionar modularmente, permitiendo la incorporación futura de diversos **stacks tecnológicos, servicios de microservicios e infraestructura de red**, proporcionando un entorno de trabajo portable, persistente y sin restricciones de licenciamiento temporal.
+This repository constitutes the foundation of a **scalable ecosystem** designed for the rapid, automated, and consistent deployment of **comprehensive development environments** using Docker. The architecture has been designed to evolve modularly, enabling the future integration of various **technology stacks, microservices, and network infrastructure**, providing a portable, persistent, and license-unrestricted working environment.
 
-## 📌 Estado del Proyecto
-> **Nota de Desarrollo:** Este proyecto se encuentra en su fase inicial de expansión. Aunque los servicios actuales son plenamente funcionales, el ecosistema está diseñado para crecer. Es un entorno vivo que puede presentar ajustes de compatibilidad según las versiones de las imágenes oficiales utilizadas.
+## 🚀 Quick Start
+Follow these steps to get your environment up and running in less than a minute:
 
-## 🛠️ Tecnologías y Requisitos
-* **Orquestación:** Docker Desktop (Debe estar iniciado antes de ejecutar los servicios).
-* **Automatización:** Scripts de control optimizados para entornos **Windows (.bat)**.
-* **Persistencia:** Gestión de volúmenes locales para garantizar la integridad de los datos entre sesiones.
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/AlusoReza/Dockers-Image-Creator.git](https://github.com/AlusoReza/Dockers-Image-Creator.git)
+    cd Dockers-Image-Creator
+    ```
+2.  **Deploy a Service:** Navigate to the desired instance folder (e.g., `Instances/Oracle`) and:
+    * **Windows:** Double-click the `.bat` file (e.g., `Launch_Oracle.bat`).
+    * **Manual/Linux:** Run `docker-compose up -d`.
+3.  **Verify Connection:** Use the credentials provided in the [Access Table](#-access-credentials-and-ports).
 
-## 📂 Catálogo de Servicios Disponibles
+---
 
-Actualmente, el ecosistema cuenta con los siguientes módulos de infraestructura:
+## 🛡️ Security Notice
+> [!IMPORTANT]
+> * **Default Credentials:** This ecosystem uses default passwords (e.g., `Oracle123`, `root`). Always modify the `.env` files before deploying in shared or non-private networks.
+> * **Port Mapping:** Services are mapped to `0.0.0.0` by default. For enhanced security, restrict access to `127.0.0.1` in the `docker-compose.yml` files.
+> * **Data Persistence:** Databases store information in local folders (`mysql_data`, `oracle_data`). Do not delete these folders unless you want to perform a complete data wipe.
 
-### 🗄️ Área de Datos (Databases)
-* **Oracle Database XE 21c**: Instancia automatizada con apertura de Pluggable Database (XEPDB1) y gestión de credenciales de sistema mediante inyección de scripts.
-* **MySQL Server**: Despliegue de alta disponibilidad con configuración de acceso root remoto y esquemas predefinidos.
+---
 
-> *Próximamente: Servidores Web (Nginx/Apache), Stacks de Backend (Node.js/Python), y herramientas de monitorización.*
+## 📌 Project Status
+> **Development Note:** This project is currently in its initial expansion phase. Although the current services are fully functional, the ecosystem is designed to grow. It is a living environment that may require compatibility adjustments depending on the versions of the official images used.
 
-## 🔌 Credenciales y Puertos de Acceso
+## 🛠️ Technologies and Requirements
+* **Orchestration:** Docker Desktop (Must be running before starting the services).
+* **Automation:** Control scripts optimized for **Windows environments (.bat)**.
+* **Persistence:** Local volume management to ensure data integrity across sessions.
 
-| Servicio | Puerto Host | Usuario | Contraseña | Identificador (DB/SID) |
+## 📂 Available Services Catalog
+
+Currently, the ecosystem includes the following infrastructure modules:
+
+### 🗄️ Data Layer (Databases)
+* **Oracle Database XE 21c**: Automated instance with Pluggable Database (XEPDB1) initialization and system credential management via script injection.
+* **MySQL Server**: High-availability deployment with remote root access configuration and predefined schemas.
+
+> *Coming soon: Web servers (Nginx/Apache), Backend stacks (Node.js/Python), and monitoring tools.*
+
+## 🔌 Access Credentials and Ports
+
+| Service | Host Port | User | Password | Identifier (DB/SID) |
 | :--- | :--- | :--- | :--- | :--- |
 | **Oracle XE** | `1521` | `system` | `Oracle123` | `XEPDB1` |
-| **MySQL** | `3308` | `root` | `root` | `UNIR_1ero` |
+| **MySQL** | `3308` | `root` | `root` | `Mi_Base_De_Datos` |
 
 ---
 
-Aquí tienes el bloque completo y bien formateado en Markdown, listo para que lo copies y lo pegues directamente en tu archivo README.md de GitHub. He incluido iconos y bloques de código para que se vea súper profesional.
-
-Markdown
-## 🚀 Guía de Operación
-
-Sigue estos pasos para desplegar tus instancias de base de datos de forma automatizada y sin errores de configuración.
-
-### 1. Preparación del Entorno
-* **Motor Docker:** Asegúrate de que Docker Desktop esté iniciado y en estado **"Running"**.
-* **Personalización (.env):** Antes de lanzar, puedes centralizar la configuración editando el archivo `.env` dentro de la carpeta de la instancia:
-    * `PUERTO_HOST`: Define el puerto que usarás en tu PC (ej. `3308`, `1522`).
-    * `NOMBRE_DB` / `ORACLE_PASS`: Configura el nombre de tu esquema o la clave maestra.
-
-### 2. Despliegue con un Clic
-* Navega a la carpeta de la instancia en `Instances/`.
-* Ejecuta el archivo **`.bat`** correspondiente (ej. `Launch_MySQL.bat` o `Launch_Oracle.bat`).
-* **Gestión de Conflictos:** El script detectará automáticamente si ya existe un contenedor con ese nombre o puerto, lo detendrá y lo recreará para asegurar una instalación limpia.
-
-### 3. Configuración Automática (Zero-Touch)
-* **Auto-Wait:** Los scripts integran una rutina de espera sincronizada (60s) para garantizar que el motor de la base de datos esté listo antes de recibir comandos.
-* **Post-Instalación:** Se ejecutan automáticamente scripts internos para:
-    * Crear la base de datos definida en las variables.
-    * Configurar privilegios de red y compatibilidad de contraseñas (Legacy Auth en MySQL / PDB Open en Oracle).
-* **Persistencia:** Todos los datos se almacenan en carpetas locales (`mysql_data` / `oracle_data`), por lo que no perderás información al borrar los contenedores.
+## ⚙️ GitHub Actions (CI/CD)
+The repository includes an automated workflow (`.github/workflows/main.yml`) that performs:
+* **YAML Validation:** Checks the syntax of all `docker-compose.yml` files.
+* **Consistency Check:** Ensures that environment variables and volume paths are correctly configured.
+* **Stability Testing:** Prevents broken configurations from being merged into the main branch.
 
 ---
 
-### 📂 Estructura de Archivos Recomendada
-Para mantener la automatización, cada carpeta de instancia debe contener:
-* `docker-compose.yml` -> Plantilla de orquestación.
-* `.env` -> Centro de control de variables.
-* `Launch_*.bat` -> Script de despliegue inteligente.
-* `init-db/` -> (Opcional) Scripts SQL para carga inicial.
+## 🚀 Operation Guide
+
+### 1. Environment Preparation
+* **Docker Engine:** Ensure Docker Desktop is running and in **"Running"** state.
+* **Customization (.env):** Before launching, you can centralize configuration by editing the `.env` file inside the instance folder:
+    * `PUERTO_HOST`: Defines the port to use on your machine (e.g., `3308`, `1522`).
+    * `NOMBRE_DB` / `ORACLE_PASS`: Configure your schema name or master password.
+
+### 2. One-Click Deployment
+* Navigate to the instance folder under `Instances/`.
+* Run the corresponding **`.bat`** file (e.g., `Launch_MySQL.bat`).
+* **Conflict Management:** The script will automatically detect if a container with the same name or port already exists, stop it, and recreate it to ensure a clean installation.
+
+### 3. Automatic Configuration (Zero-Touch)
+* **Auto-Wait:** Scripts include a synchronized wait routine (60s) to ensure the database engine is ready before receiving commands.
+* **Post-Installation:** Internal scripts are automatically executed to create the database and configure network privileges (Legacy Auth in MySQL / PDB Open in Oracle).
+* **Persistence:** All data is stored in local folders (`mysql_data` / `oracle_data`), so information is not lost when containers are removed.
 
 ---
 
-## ⚠️ Consideraciones Técnicas
-* **Compatibilidad:** En herramientas de gestión visual (como MySQL Workbench), es posible recibir avisos de versión. Se recomienda omitir y continuar ("Continue Anyway") para operar con normalidad.
-* **Privilegios:** Algunos scripts de configuración requieren la ejecución con permisos de administrador para gestionar correctamente los volúmenes en Windows.
-* **Optimización:** Se recomienda detener los servicios que no estén en uso para liberar recursos del sistema (RAM/CPU).
+### 📂 Recommended File Structure
+To maintain automation, each instance folder should contain:
+* `docker-compose.yml` -> Orchestration template.
+* `.env` -> Variable control center.
+* `Launch_*.bat` -> Smart deployment script.
+* `init-db/` -> (Optional) SQL scripts for initial setup.
 
 ---
 
-## ⚖️ Licencia y Propiedad Intelectual
-
-**Copyright (c) 2024 - [Tu Nombre o Usuario de GitHub]**
-
-Este ecosistema se distribuye bajo la licencia **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**. 
-
-### 🚫 Restricciones de Uso:
-1.  **Atribución (BY):** Debe otorgar el crédito correspondiente al autor original en cualquier derivación o copia.
-2.  **No Comercial (NC):** Queda terminantemente prohibido el uso de este material, total o parcial, con fines comerciales o lucrativos sin autorización expresa.
-3.  **Sin Garantía:** El software se entrega "as is" (tal cual). El autor declina toda responsabilidad por pérdidas de datos o fallos técnicos derivados de su uso.
-
-> [Consulta aquí el resumen legal completo de la licencia](https://creativecommons.org/licenses/by-nc/4.0/deed.es)
+## ⚠️ Technical Considerations
+* **Compatibility:** In visual management tools (such as MySQL Workbench), version warnings may appear. It is recommended to ignore them and proceed ("Continue Anyway").
+* **Privileges:** Some configuration scripts require administrator privileges to properly manage volumes on Windows.
+* **Optimization:** It is recommended to stop unused services to free system resources (RAM/CPU).
 
 ---
 
-## 🛠️ Contribuciones
-Este proyecto es **abierto y mejorable**. Si deseas proponer una nueva integración, corregir un bug o mejorar la automatización, las Pull Requests son bienvenidas.
+## ⚖️ License and Intellectual Property
+
+**Copyright (c) 2026 - Alonso José Suárez Reza**
+
+This project is licensed under the **MIT License**, a permissive open-source license that allows reuse, modification, and distribution with minimal restrictions.
+
+### ✅ Permissions:
+- Commercial use
+- Modification
+- Distribution
+- Private use
+
+### 📌 Conditions:
+- Attribution: You must include the original copyright notice and license in any copy or substantial portion of the software.
+
+### ⚠️ Disclaimer:
+This software is provided "as is", without warranty of any kind, express or implied. The author shall not be held liable for any damages arising from the use of this software.
+
+> [Read the full MIT License](https://opensource.org/licenses/MIT)
+
+---
+
+## 🛠️ Contributions
+This project is **open and continuously improvable**. If you would like to propose a new integration, fix a bug, or enhance the automation, Pull Requests are welcome.
