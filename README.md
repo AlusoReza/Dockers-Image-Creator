@@ -30,7 +30,7 @@ Currently, the ecosystem includes the following infrastructure modules:
 | Service | Host Port | User | Password | Identifier (DB/SID) |
 | :--- | :--- | :--- | :--- | :--- |
 | **Oracle XE** | `1521` | `system` | `Oracle123` | `XEPDB1` |
-| **MySQL** | `3308` | `root` | `root` | `UNIR_1ero` |
+| **MySQL** | `3308` | `root` | `root` | `Mi_Base_De_Datos` |
 
 ---
 
