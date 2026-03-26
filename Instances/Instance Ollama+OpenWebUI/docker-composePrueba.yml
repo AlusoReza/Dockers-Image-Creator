@@ -1,0 +1,98 @@
+services:
+  # ---------------------------------------------------------------------------
+  # SECCIÓN 1: EL MOTOR (OLLAMA)
+  # Es el "cerebro" que carga los modelos (Llama, DeepSeek, Qwen) y usa tu GPU.
+  # ---------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:rocm        # Imagen específica para gráficas AMD Radeon.
+    container_name: ollama           # Nombre fijo para que la interfaz lo localice.
+    
+    # RED Y SEGURIDAD:
+    # "11434:11434" -> Abierto a toda tu red local (otros PCs pueden conectar su VS Code).
+    # "127.0.0.1:11434:11434" -> Si prefieres que SOLO tu PC pueda usar la IA (Más seguro).
+    ports:
+      - "11434:11434"                
+
+    # HARDWARE (AMD RX 9070 XT):
+    devices:
+      - /dev/kfd:/dev/kfd            # Interfaz de computación de AMD.
+      - /dev/dri:/dev/dri            # Acceso a los drivers gráficos de la serie 9000.
+    
+    # CONFIGURACIÓN DEL ENTORNO:
+    environment:
+      - OLLAMA_KEEP_ALIVE=5m        # Libera los 16GB de VRAM tras 5 min de pausa (Vital para jugar).
+      - OLLAMA_ORIGINS=*            # Permite que VS Code o webs externas se conecten sin bloqueos.
+      - ROCR_VISIBLE_DEVICES=1            # FUERZA a usar la primera GPU detectada (tu 9070 XT)
+      - OLLAMA_LLM_LIBRARY=rocm           # Obliga a usar librerías de AMD
+      # Nota: Si Ollama no detecta tu RX 9070 XT por ser muy nueva, añade:
+      - HSA_OVERRIDE_GFX_VERSION=11.0.0
+    
+    privileged: true # <--- AÑADE ESTO para dar permiso total sobre la GPU AMD
+
+    # ALMACENAMIENTO:
+    # Guarda los modelos en tu disco duro para no perderlos si borras el contenedor.
+    volumes:
+      - ./ollama_data:/root/.ollama
+
+    # LÍMITES DE SEGURIDAD:
+    deploy:
+      resources:
+        limits:
+          memory: 32gb              # Evita que un error de la IA bloquee todo Windows.
+    
+    # LIMPIEZA DE REGISTROS:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"             # Máximo 10MB de historial de texto.
+        max-file: "3"               # Solo guarda los 3 archivos más recientes.
+    
+    restart: "no"                   # MODO MANUAL: Tú decides cuándo consume luz y VRAM.
+
+  # ---------------------------------------------------------------------------
+  # SECCIÓN 2: LA INTERFAZ (OPEN WEBUI)
+  # Es el "ChatGPT" visual que ves en el navegador.
+  # ---------------------------------------------------------------------------
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    
+    # ACCESO WEB:
+    # Entra desde cualquier dispositivo de tu casa usando http://tu-ip-local:3000
+    ports:
+      - "3000:8080"
+    
+    environment:
+      - 'OLLAMA_BASE_URL=http://ollama:11434'  # Conexión interna entre contenedores.
+      - 'WEBUI_SECRET_KEY=clave_fija_segura'   # Mantiene tu sesión abierta tras reiniciar.
+      
+      # SEGURIDAD DE ACCESO (MODIFICABLE):
+      - 'ENABLE_SIGNUP=true'         # CAMBIAR A 'false' cuando tus invitados ya tengan cuenta.
+      - 'DEFAULT_USER_ROLE=pending'  # Tú (el Admin) debes autorizar a cada usuario nuevo.
+    
+    # ALMACENAMIENTO DE USUARIOS Y CHATS:
+    volumes:
+      - ./webui_data:/app/backend/data
+    
+    # CONECTIVIDAD:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    
+    # VIGILANCIA DE ESTADO:
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 1m
+      timeout: 10s
+    
+    # ORDEN DE ARRANQUE:
+    depends_on:
+      ollama:
+        condition: service_started
+        
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+    restart: "no"                   # MODO MANUAL.
